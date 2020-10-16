@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    {% for item in items %}
+    <p>{{ item.first_name }}</p>
+    <ul>
+        <li>{{ item.created }}</li>
+        <img src="{{item.picture.url}}">
+    </ul>
+    {% endfor %}
+</body>
+{% endblock %}
