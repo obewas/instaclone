@@ -19,7 +19,7 @@ def index(request):
     context = {
         'items': items
     }
-    print(context)
+
     return render(request, 'insta/index.html',context)
 
 
@@ -99,9 +99,11 @@ def change_password(request):
     return render(request, 'registration/change_password.html', {
         'form': form
     })
+@login_required
 def user_profile(request):
     profile = Profile.objects.all()
     context = {
-        'profile': profile
+        'profile': profile,
     }
+    print()
     return render(request, 'insta/profile_list.html',context)

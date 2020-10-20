@@ -14,8 +14,8 @@
             <ul id="al-group" class="strip-list">
                 {% for item in profile %}
                     <li class="al-item">
-                        <a href=""><h4 class="al-name">{{ item.name }}</h4></a>
-                        <span class="al-created">created on {{ item.created_on }}</span>
+                        <a href=""><h4 class="al-name">{{ item.email }}</h4></a>
+                        <span class="al-created">created on {{ item.created }}</span>
                     </li>
                 {% endfor %}
             </ul>

@@ -57,9 +57,9 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
-    slug = models.SlugField(unique=True, blank=True)
+   # slug = models.SlugField(unique=True, blank=True, null=True)
     image = models.ForeignKey(Image,on_delete=models.CASCADE, null=True)
-    likes = models.BooleanField(null=True, rel='likes')
+   # likes = models.BooleanField(null=True, rel='likes')
 
     def __str__(self):
         return f"{self.user.username}{self.created}"
