@@ -17,7 +17,7 @@ def index(request):
         'items': items
     }
     print(context)
-    return render(request, 'ins  ta/index.html',context)
+    return render(request, 'insta/index.html',context)
 
 
 def sign_up(request):
