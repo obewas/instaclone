@@ -16,7 +16,6 @@ class Image(models.Model):
     image = models.ImageField(null=True)
     image_name = models.CharField(null=True, max_length=60)
     image_caption = models.CharField(null=True, max_length=100)
-    likes = models.BooleanField(null=True, rel='likes')
     comments = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -60,14 +59,19 @@ class Profile(models.Model):
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
     slug = models.SlugField(unique=True, blank=True)
     image = models.ForeignKey(Image,on_delete=models.CASCADE, null=True)
+    likes = models.BooleanField(null=True, rel='likes')
 
     def __str__(self):
         return f"{self.user.username}{self.created}"
 
-    def create_profile(self):
-        profile = Profile.objects.all()
-        profile.save()
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
-    def delete_profile(self, pk):
-        deleted_profile = Profile.objects.get(pk)
-        deleted_profile.delete()
+def delete_profile(self, pk):
+    deleted_profile = Profile.objects.get(pk)
+    deleted_profile.delete()
+post_save.connect(create_profile, sender=User)
+post_save.connect(save_user_profile, sender=User)

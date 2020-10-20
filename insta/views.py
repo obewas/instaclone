@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from .models import Profile
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from .forms import CreateUserForm
-from django.contrib import messages
 from .email import send_welcome_email
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 # Create your views here.
 @login_required
 def index(request):
@@ -79,3 +81,27 @@ class AccountList(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(AccountList, self).dispatch(*args, **kwargs)
+
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/change_password.html', {
+        'form': form
+    })
+def user_profile(request):
+    profile = Profile.objects.all()
+    context = {
+        'profile': profile
+    }
+    return render(request, 'insta/profile_list.html',context)
