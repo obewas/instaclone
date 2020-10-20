@@ -9,6 +9,7 @@ from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from .forms import CreateUserForm
 from django.contrib import messages
+from .email import send_welcome_email
 # Create your views here.
 @login_required
 def index(request):
@@ -59,6 +60,8 @@ def user_detail(request):
             obj.save()
             form = CreateUserForm()
             messages.success(request, "Successfully created")
+            send_welcome_email(name='name',email='email')
+
 
     return render(request, 'insta/form.html', {'form': form})
 
@@ -69,7 +72,10 @@ class AccountList(ListView):
     
     def get_queryset(self):
         profile_list = Profile.objects.filter(owner=self.request.user)
+        print(profile_list)
         return profile_list
+
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(AccountList, self).dispatch(*args, **kwargs)
