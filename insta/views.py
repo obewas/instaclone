@@ -9,9 +9,10 @@ from django.utils.decorators import method_decorator
 from .forms import CreateUserForm
 from .email import send_welcome_email
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash, authenticate, login
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 # Create your views here.
 @login_required
 def index(request):
@@ -24,19 +25,40 @@ def index(request):
 
 
 def sign_up(request):
+    if request.user.is_authenticated:
+        return redirect('/')
     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            #username = form.cleaned_data.get('username')
-            #raw_password = form.cleaned_data.get('password1')
-            #user = authenticate(username=username, password=raw_password)
-            #login(request, user)
-            return redirect('index')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('/')
+        else:
+            return render(request, 'registration/signup.html', {'form': form})
     else:
-        form = CreateUserForm()
-    return render(request, 'registration/sign_up.html', {'form': form})
+        form = UserCreationForm()
+        return render(request, 'registration/signup.html', {'form': form})
 
+
+def signin(request):
+    if request.user.is_authenticated:
+        return render(request, 'registration/index.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            form = AuthenticationForm(request.POST)
+            return render(request, 'registration/login.html', {'form': form})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'registration/login.html', {'form': form})
 
 def my_view(request):
     username = request.POST['username']
@@ -53,8 +75,9 @@ def my_view(request):
 
 def logout_view(request):
     logout(request)
+    messages.info(request, "Logged out successfully!")
     # Redirect to a success page.
-    return render(request, 'registration/log_out.html')
+    return redirect('/')
 def user_detail(request):
     form = CreateUserForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
