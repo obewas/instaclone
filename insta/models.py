@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
 #from post.models import Post
 from django.db.models.signals import post_save
 
@@ -63,10 +64,11 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}{self.created}"
-
+@receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+    instance.profile.save()
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 

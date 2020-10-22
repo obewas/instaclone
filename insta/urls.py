@@ -9,7 +9,7 @@ from django.conf import settings
 
 urlpatterns = [
     url('^$', views.index, name='index'),
-    url('^sign_up/$',views.sign_up, name="sign-up"),
+    url('^sign_up/$',views.sign_up, name="sign_up"),
     url('^login/$', LoginView.as_view(template_name='registration/login.html')),
     url('^log_out/$', views.logout_view, name='Log_out'),
     url('^user_profile/$', views.user_profile, name='profile'),

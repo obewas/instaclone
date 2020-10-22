@@ -24,15 +24,18 @@ def index(request):
 
 
 def sign_up(request):
-    context = {}
-    form = CreateUserForm(request.POST or None)
-    if request.method == "POST":
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request,user)
-            return render(request,'insta/index.html')
-    context['form']=form
-    return render(request,'registration/sign_up.html',context)
+            form.save()
+            #username = form.cleaned_data.get('username')
+            #raw_password = form.cleaned_data.get('password1')
+            #user = authenticate(username=username, password=raw_password)
+            #login(request, user)
+            return redirect('index')
+    else:
+        form = CreateUserForm()
+    return render(request, 'registration/sign_up.html', {'form': form})
 
 
 def my_view(request):
