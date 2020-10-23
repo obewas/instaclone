@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from . models import Profile
 
 
 def ForbiddenUsers(value):
@@ -16,6 +17,7 @@ def UniqueUser(value):
         raise ValidationError('User with this username already exists')
 
 class CreateUserForm(UserCreationForm):
+    email = forms.EmailField()
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -32,7 +34,17 @@ class CreateUserForm(UserCreationForm):
 
         return self.cleaned_data
 
+class UserUpdateForm(forms.ModelForm):
+	email = forms.EmailField()
 
+	class Meta:
+		model = User
+		fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = ['bio', 'image']
 
 
 class SearchForm(forms.ModelForm):
