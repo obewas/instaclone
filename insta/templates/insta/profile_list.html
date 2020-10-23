@@ -11,12 +11,20 @@
                 {# Account Search Form #}
             </div>
             {# List of Profiles #}
+            <hr>
             <ul id="al-group" class="strip-list">
                 {% for item in profile %}
+                    <li>{{ item.first_name }} {{ item.last_name }}</li>
+                    <img src="{{ item.image.url }}">
+                    <li>{{ item.user }}</li>
+                    <li>{{ item.bio }}</li>
+                    <li>{{item.profile_desc }}</li>
                     <li class="al-item">
                         <a href=""><h4 class="al-name">{{ item.email }}</h4></a>
                         <span class="al-created">created on {{ item.created }}</span>
                     </li>
+                    <hr>
+
                 {% endfor %}
             </ul>
             {# Pagination Section #}

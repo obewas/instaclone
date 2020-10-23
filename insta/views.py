@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from .forms import CreateUserForm
 from .email import send_welcome_email
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash, authenticate, login
+from django .contrib.auth import update_session_auth_hash, authenticate, login
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
