@@ -5,6 +5,7 @@
 
     <p>{% for item in items %}</p>
     <ul>
+        <li>{{ item.user }}</li>
         <li>{{ item.created }}</li>
         <img src="{{ item.picture.url }}">
     </ul>
