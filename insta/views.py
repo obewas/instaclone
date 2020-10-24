@@ -146,7 +146,7 @@ def new_profile(request):
             image = form.save(commit=False)
             image.profile = current_user
             image.save()
-        return redirect('user_profile')
+        return redirect('profile')
     else:
         form = NewImageForm()
-    return render(request, 'new_profile.html', {"form": form})
+    return render(request, 'insta/new_profile.html', {"form": form})
