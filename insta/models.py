@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from autoslug import AutoSlugField
 from django.conf import settings
+from tinymce.models import HTMLField
 #from post.models import Post
 from django.db.models.signals import post_save
 
@@ -21,6 +22,7 @@ class Image(models.Model):
     image_caption = models.CharField(null=True, max_length=100)
     comments = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    post = HTMLField()
 
     def __str__(self):
         return self.image_name

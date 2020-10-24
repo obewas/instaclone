@@ -13,6 +13,7 @@ from django .contrib.auth import update_session_auth_hash, authenticate, login
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+from .forms import NewImageForm
 
 # Create your views here.
 @login_required
@@ -135,5 +136,17 @@ def user_profile(request):
     context = {
         'profile': profile,
     }
-    print()
+
     return render(request, 'insta/profile_list.html',context)
+def new_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.profile = current_user
+            image.save()
+        return redirect('user_profile')
+    else:
+        form = NewImageForm()
+    return render(request, 'new_profile.html', {"form": form})

@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from . models import Profile
+from . models import Profile, Image
 
 
 def ForbiddenUsers(value):
@@ -51,5 +51,13 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class SearchForm(forms.ModelForm):
     search_query = forms.CharField(max_length=100)
+
+class NewImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        exclude = ['created', 'updated', 'friends', 'slug']
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple()
+        }
 
 

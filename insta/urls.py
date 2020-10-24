@@ -15,4 +15,5 @@ urlpatterns = [
     url('^user_profile/$', views.user_profile, name='profile'),
     url('^user_details/$', views.user_detail, name='home'),
     url(r'^change_password/$', views.change_password, name='change_password'),
+    url(r'^new/profile$', views.new_profile, name='new-profile')
 ]
