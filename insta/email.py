@@ -6,7 +6,7 @@ def send_welcome_email(name,receiver):
     subject = 'Welcome to the Instaclone App'
     sender = 'obewas1202@gmail.com'
 
-    #passing in the context vairables
+    #passing in the context variables
     text_content = render_to_string('email/newsemail.txt',{"name": name})
     html_content = render_to_string('email/newsemail.html',{"name": name})
 

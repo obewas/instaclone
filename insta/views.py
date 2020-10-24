@@ -13,6 +13,7 @@ from django .contrib.auth import update_session_auth_hash, authenticate, login
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+
 # Create your views here.
 @login_required
 def index(request):
@@ -33,6 +34,9 @@ def sign_up(request):
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            name = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            send_welcome_email(name, email)
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('/')

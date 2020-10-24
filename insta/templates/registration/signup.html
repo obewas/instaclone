@@ -1,3 +1,6 @@
+{% extends 'insta/base.html' %}
+{% load static %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
 
@@ -16,3 +19,4 @@
 
     <input type="submit" value="Sign up" autocomplete="on">
 </form>
+{% endblock %}

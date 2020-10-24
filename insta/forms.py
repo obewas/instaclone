@@ -25,6 +25,8 @@ class CreateUserForm(UserCreationForm):
         super(CreateUserForm, self).__init__(*args, **kwargs)
         self.fields['username'].validators.append(ForbiddenUsers)
         self.fields['username'].validators.append(UniqueUser)
+        self.fields['email'].validators.append(ForbiddenUsers)
+        self.fields['email'].validators.append(UniqueUser)
     def clean(self):
         super(CreateUserForm,self).clean()
         password = self.cleaned_data.get('password')
