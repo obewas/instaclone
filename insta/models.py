@@ -17,7 +17,7 @@ created = models.DateTimeField(auto_now_add=True)
 
 class Image(models.Model):
     user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, upload_to='gallery')
     image_name = models.CharField(null=True, max_length=60)
     image_caption = models.CharField(null=True, max_length=100)
     comments = models.TextField()

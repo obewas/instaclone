@@ -14,6 +14,7 @@
             <hr>
             <ul id="al-group" class="strip-list">
                 {% for item in profile %}
+                {% if item.user == request.user %}
                     <li>{{ item.first_name }} {{ item.last_name }}</li>
                     <img src="{{ item.image.url }}">
                     <li>{{ item.user }}</li>
@@ -24,7 +25,7 @@
                         <span class="al-created">created on {{ item.created }}</span>
                     </li>
                     <hr>
-
+                 {% endif %}
                 {% endfor %}
             </ul>
             {# Pagination Section #}

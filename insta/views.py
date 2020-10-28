@@ -150,3 +150,7 @@ def new_profile(request):
     else:
         form = NewImageForm()
     return render(request, 'insta/new_profile.html', {"form": form})
+
+@login_required
+def dashboard(request):
+ return render(request,'insta/dashboard.html',{'section': 'dashboard'})

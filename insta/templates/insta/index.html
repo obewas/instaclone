@@ -3,6 +3,7 @@
 
 {% block content %}
 <body>
+
     <h1> Welcome {{user}} </h1>
 
     <p>{% for item in items %}</p>
@@ -10,7 +11,7 @@
         <li>{{ item.user }}</li>
         <li>{{ item.profile_desc }}</li>
         <li>{{ item.created }}</li>
-        <img src="{% static item.picture %}">
+        <img src="{{ item.image.url }}">
     </ul>
     {% endfor %}
 

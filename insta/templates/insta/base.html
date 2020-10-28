@@ -39,9 +39,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{user.username}}
             </a>
-                 <li>
-                    <a href="{%url 'new-profile'%}">Create Profile</a>
-                  </li>
+
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="">My Profile</a>
                 <div class="dropdown-divider"></div>
@@ -63,12 +61,12 @@
     </div>
     </nav>
     <!--Navbar Ends-->
+  {% if user.is_authenticated %}
   <Ul>
      <li><a href="{% url 'profile' %}"
        class="p-r-none">Profile</a></li>
    </Ul>
-
-
+   {% endif %}
 
       {% block banner %}
       {% endblock %}
